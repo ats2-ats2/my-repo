@@ -4,8 +4,14 @@ jobs:
   print:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            verison: 20
+          - os: macos-latest
+            version: 18
     runs-on: ${{ matrix.os }}
     steps:
-      - run: echo ${RUNNER_OS}
-        shell: bash
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.verison }}
+      - run: echo "${RUNNER_OS}" && node --version
